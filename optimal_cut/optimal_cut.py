@@ -8,7 +8,8 @@ def find_best_cuts(
     best_waste = long_stick
 
     for i in range(1, len(smaller_sticks) + 1):
-        for comb in list(combinations(smaller_sticks, i)):
+        for comb_set in set(combinations(smaller_sticks, i)):
+            comb = list(comb_set)
             waste = long_stick - sum(comb) - buffer * (len(comb) - 1)
             if 0 <= waste < best_waste:
                 best_waste = waste
