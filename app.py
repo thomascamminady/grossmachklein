@@ -1,4 +1,5 @@
 import streamlit as st
+
 from optimal_cut import logger
 from optimal_cut.optimal_cut import compute_optimal_cuts
 
