@@ -11,6 +11,8 @@ def find_best_cuts(long_stick: float, smaller_sticks: list[float]) -> list[float
             if 0 <= waste < best_waste:
                 best_waste = waste
                 best_cuts = comb
+                if best_waste == 0:
+                    return list(best_cuts)
 
     return list(best_cuts)
 
