@@ -37,15 +37,19 @@ if __name__ == "__main__":
         "Kleine Maße kommen hier rein. Angaben in Zentimetern.", height=100
     )
     long_stick = st.number_input("Große Länge in Zentimetern.", value=600)
+    buffer = st.number_input("Puffer pro Schnitt in Zentimetern.", value=0)
     if st.button("Click here for magic!"):
         small_sticks = parse_input(small_sticks_strings)
+
+        logger.info(small_sticks)
         small_sticks = remove_sticks_that_are_too_large(long_stick, small_sticks)
         st.markdown("## So kannst du schneiden:")
         optimal_cuts, waste = compute_optimal_cuts(
-            long_stick, smaller_sticks=small_sticks
+            long_stick, smaller_sticks=small_sticks, buffer=buffer
         )
 
         for i, plan in enumerate(optimal_cuts):
+            sorted_plan = plan.sort()
             st.write(
                 f"- Großes Stück {i+1}    (Verschnitt: {long_stick-sum(plan)}cm)"
                 + "\n   - "
