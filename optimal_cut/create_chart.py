@@ -12,10 +12,10 @@ def create_chart(df: pd.DataFrame) -> alt.Chart:
             detail="ID:N",
             color=alt.condition(
                 alt.datum.Typ == "Waste",
-                alt.value("#de2d26"),
-                alt.value("#636363"),
+                alt.value("#fa5f0f"),
+                alt.value("#9f9896"),
             ),
         )
-        .properties(width=600, height=400)
+        .properties(width=600, height=300)
     )
     return chart

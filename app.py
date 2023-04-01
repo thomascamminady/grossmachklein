@@ -7,22 +7,25 @@ from optimal_cut.optimal_cut import compute_optimal_cuts
 from optimal_cut.to_dataframe import create_dataframe
 
 if __name__ == "__main__":
-    st.image("assets/logo.jpg")
+    st.image("assets/logo.jpg", width=400)
     st.title("Aus groß mach klein!")
     small_sticks_strings = st.text_area(
         "Kleine Maße kommen hier rein. Angaben in Zentimetern. Z.B.: 100,200,150",
         height=100,
     )
-    long_stick = st.number_input("Große Länge in Zentimetern.", value=600)
-    buffer = st.number_input(
-        "Puffer pro Schnitt in Zentimetern.",
-        value=0.0,
-        min_value=0.0,
-        max_value=1.0,
-        step=1e-1,
-        format="%.1f",
-    )
-    if st.button("Click here for magic!"):
+    col1, col2 = st.columns(2)
+    with col1:
+        long_stick = st.number_input("Große Länge in Zentimetern.", value=600)
+    with col2:
+        buffer = st.number_input(
+            "Puffer pro Schnitt in Zentimetern.",
+            value=0.0,
+            min_value=0.0,
+            max_value=1.0,
+            step=1e-1,
+            format="%.1f",
+        )
+    if st.button("Plan erstellen"):
         small_sticks = parse_input(small_sticks_strings)
 
         logger.info(small_sticks)
@@ -32,7 +35,7 @@ if __name__ == "__main__":
         )
 
         st.markdown("## Überblick")
-        st.markdown("Verschnitt in rot.")
+        st.markdown("Verschnitt in orange.")
         df = create_dataframe(long_stick, optimal_cuts)
         st.altair_chart(create_chart(df))
 
