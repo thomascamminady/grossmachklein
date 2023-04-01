@@ -15,7 +15,7 @@ if __name__ == "__main__":
     )
     col1, col2 = st.columns(2)
     with col1:
-        long_stick = st.number_input("Große Länge in Zentimetern.", value=600)
+        long_stick = st.number_input("Große Länge in Zentimetern.", value=598)
     with col2:
         buffer = st.number_input(
             "Puffer pro Schnitt in Zentimetern.",
