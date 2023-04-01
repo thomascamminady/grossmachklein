@@ -9,7 +9,8 @@ from optimal_cut.optimal_cut import compute_optimal_cuts
 if __name__ == "__main__":
     st.title("Aus groß mach klein!")
     small_sticks_strings = st.text_area(
-        "Kleine Maße kommen hier rein. Angaben in Zentimetern.", height=100
+        "Kleine Maße kommen hier rein. Angaben in Zentimetern. Z.B.: 100,200,150",
+        height=100,
     )
     long_stick = st.number_input("Große Länge in Zentimetern.", value=600)
     buffer = st.number_input("Puffer pro Schnitt in Zentimetern.", value=0)
