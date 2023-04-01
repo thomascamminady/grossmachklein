@@ -1,35 +1,10 @@
+import altair as alt
+import pandas as pd
 import streamlit as st
 
 from optimal_cut import logger
+from optimal_cut.io import parse_input, remove_sticks_that_are_too_large
 from optimal_cut.optimal_cut import compute_optimal_cuts
-
-
-def parse_input(input_text: str) -> list[float]:
-    small_pieces = []
-    for row in input_text.strip().split("\n"):
-        for s in row.strip().split(","):
-            try:
-                small_pieces.append(float(s))
-            except Exception as e:
-                st.warning(f"Das hier scheint keine korrekte Eingabe zu sein: {s}")
-                logger.error(f"Parsing: {input_text}")
-                logger.error(e)
-    return small_pieces
-
-
-def remove_sticks_that_are_too_large(
-    long_stick: float, small_sticks: list[float]
-) -> list[float]:
-    valid_small_sticks = []
-    for small_stick in small_sticks:
-        if small_stick > long_stick:
-            st.warning(
-                f"Wir können kein {small_stick} Stück aus einem {long_stick} Stück schneiden. Das Stück wird ignoriert."
-            )
-        else:
-            valid_small_sticks.append(small_stick)
-    return valid_small_sticks
-
 
 if __name__ == "__main__":
     st.title("Aus groß mach klein!")
@@ -48,13 +23,64 @@ if __name__ == "__main__":
             long_stick, smaller_sticks=small_sticks, buffer=buffer
         )
 
+        dflist = []
         for i, plan in enumerate(optimal_cuts):
-            sorted_plan = plan.sort()
+            plan.sort()
+            for j, x in enumerate(plan):
+                dflist.append(
+                    pd.DataFrame(
+                        [
+                            {
+                                "Stück": i,
+                                "Länge": x,
+                                "Typ": "Schnitt",
+                                "ID": j,
+                                "even": j % 2,
+                            }
+                        ]
+                    )
+                )
+
+            dflist.append(
+                pd.DataFrame(
+                    [
+                        {
+                            "Stück": i,
+                            "Länge": long_stick - sum(plan),
+                            "Typ": "Waste",
+                            "ID": len(plan),
+                            "even": 2,
+                        }
+                    ]
+                )
+            )
+
             st.write(
                 f"- Großes Stück {i+1}    (Verschnitt: {long_stick-sum(plan)}cm)"
                 + "\n   - "
                 + "\n  - ".join([f"{x} cm" for x in plan])
             )
+
+        st.markdown("## Grafik (rot ist Verschnitt)")
+
+        df = pd.concat(dflist)
+        # legend_selection = alt.selection_point(fields=["SHAPE_OR_COLOR"], bind="legend")
+        chart = (
+            alt.Chart(df.sort_values(["Stück", "ID"]))
+            .mark_bar(strokeOpacity=1, strokeWidth=2, stroke="white")
+            # .mark_line(clip=True)
+            .encode(
+                y=alt.Y("Stück:N", scale=alt.Scale(zero=False)),
+                x=alt.X("Länge:Q", scale=alt.Scale(zero=False)),
+                detail="ID:N",
+                color=alt.condition(
+                    alt.datum.Typ == "Waste", alt.value("red"), alt.value("black")
+                ),
+            )
+            .properties(width=600, height=400)
+        )
+
+        st.altair_chart(chart)
         logger.info("Magic:")
         logger.info(small_sticks)
         logger.info(optimal_cuts)
