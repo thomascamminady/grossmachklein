@@ -7,6 +7,7 @@ from optimal_cut.optimal_cut import compute_optimal_cuts
 from optimal_cut.to_dataframe import create_dataframe
 
 if __name__ == "__main__":
+    st.image("assets/logo.jpg")
     st.title("Aus groß mach klein!")
     small_sticks_strings = st.text_area(
         "Kleine Maße kommen hier rein. Angaben in Zentimetern. Z.B.: 100,200,150",
