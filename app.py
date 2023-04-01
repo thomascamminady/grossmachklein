@@ -32,7 +32,7 @@ if __name__ == "__main__":
                     pd.DataFrame(
                         [
                             {
-                                "Stück": i,
+                                "Stück": i + 1,
                                 "Länge": x,
                                 "Typ": "Schnitt",
                                 "ID": j,
@@ -46,7 +46,7 @@ if __name__ == "__main__":
                 pd.DataFrame(
                     [
                         {
-                            "Stück": i,
+                            "Stück": i + 1,
                             "Länge": long_stick - sum(plan),
                             "Typ": "Waste",
                             "ID": len(plan),
