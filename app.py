@@ -35,7 +35,7 @@ if __name__ == "__main__":
         )
 
         st.markdown("## Überblick")
-        st.markdown("Verschnitt in orange.")
+        st.markdown(f"Verschnitt in Orange. Insgesamt: {waste} cm")
         df = create_dataframe(long_stick, optimal_cuts)
         st.altair_chart(create_chart(df))
 
