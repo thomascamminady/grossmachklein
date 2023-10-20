@@ -10,7 +10,10 @@ if __name__ == "__main__":
     st.image("assets/logo.jpg", width=400)
     st.title("Aus groß mach klein!")
     small_sticks_strings = st.text_area(
-        "Kleine Maße kommen hier rein. Angaben in Zentimetern. Z.B.: 100,200,150",
+        (
+            "Kleine Maße kommen hier rein."
+            + "Angaben in Zentimetern. Z.B.: 100, 200, 150"
+        ),
         height=100,
     )
     col1, col2 = st.columns(2)
@@ -29,7 +32,10 @@ if __name__ == "__main__":
         small_sticks = parse_input(small_sticks_strings)
 
         logger.info(small_sticks)
-        small_sticks = remove_sticks_that_are_too_large(long_stick, small_sticks)
+        small_sticks = remove_sticks_that_are_too_large(
+            long_stick,
+            small_sticks,
+        )
         optimal_cuts, waste = compute_optimal_cuts(
             long_stick, smaller_sticks=small_sticks, buffer=buffer
         )
@@ -41,11 +47,15 @@ if __name__ == "__main__":
 
         st.markdown("## So kannst du schneiden")
         for i, plan in enumerate(optimal_cuts):
-            st.write(
-                f"- Großes Stück {i+1}    (Verschnitt: {long_stick-sum(plan)} cm)"
+            waste_i = long_stick - sum(plan)
+            color = "green" if waste_i == 0 else "black"
+            text = (
+                f"- Großes Stück {i+1}    "
+                + f"(:{color}[Verschnitt: {waste_i} cm])"
                 + "\n   - "
                 + "\n  - ".join([f"{x} cm" for x in plan])
             )
+            st.write(text)
         logger.info("Magic:")
         logger.info(small_sticks)
         logger.info(optimal_cuts)

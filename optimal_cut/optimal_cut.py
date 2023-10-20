@@ -29,12 +29,16 @@ def compute_optimal_cuts(
     long_stick: float, smaller_sticks: list[float], buffer: float
 ) -> tuple[list[list[float]], float]:
     result = []
-    waste = 0
+    waste = 0.0
     sorted(smaller_sticks)
     remaining_pieces = smaller_sticks.copy()
 
     while len(remaining_pieces) > 0:
-        optimal_cuts_for_stick = find_best_cuts(long_stick, remaining_pieces, buffer)
+        optimal_cuts_for_stick = find_best_cuts(
+            long_stick,
+            remaining_pieces,
+            buffer,
+        )
         result.append(optimal_cuts_for_stick)
         waste += long_stick - sum(optimal_cuts_for_stick)
 
