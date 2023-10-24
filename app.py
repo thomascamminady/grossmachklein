@@ -50,7 +50,7 @@ if __name__ == "__main__":
             waste_i = long_stick - sum(plan)
             color = "green" if waste_i == 0 else "black"
             text = (
-                f"- Großes Stück {i+1} "
+                f"- Großes Stück {i+1}\n"
                 + f":{color}[Rest: {waste_i} cm]"
                 + "\n   - "
                 + "\n  - ".join([f"{x} cm" for x in plan])

@@ -7,6 +7,8 @@ def parse_input(input_text: str) -> list[float]:
     small_pieces = []
     for row in input_text.strip().split("\n"):
         for s in row.strip().split(","):
+            if s == "":
+                continue
             try:
                 small_pieces.append(float(s))
             except Exception as e:
