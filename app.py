@@ -51,7 +51,7 @@ if __name__ == "__main__":
             color = "green" if waste_i == 0 else "black"
             text = (
                 f"- Großes Stück {i+1} "
-                + f"(:{color}[Rest: {waste_i} cm])"
+                + f":{color}[Rest: {waste_i} cm]"
                 + "\n   - "
                 + "\n  - ".join([f"{x} cm" for x in plan])
             )
