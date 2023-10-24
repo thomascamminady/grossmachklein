@@ -18,7 +18,7 @@ if __name__ == "__main__":
     )
     col1, col2 = st.columns(2)
     with col1:
-        long_stick = st.number_input("Große Länge in Zentimetern.", value=598)
+        long_stick = st.number_input("Große Länge in Zentimetern.", value=600)
     with col2:
         buffer = st.number_input(
             "Puffer pro Schnitt in Zentimetern.",
@@ -51,7 +51,7 @@ if __name__ == "__main__":
             color = "green" if waste_i == 0 else "black"
             text = (
                 f"- Großes Stück {i+1}    "
-                + f"(:{color}[Verschnitt: {waste_i} cm])"
+                + f"(:{color}[Rest: {waste_i} cm])"
                 + "\n   - "
                 + "\n  - ".join([f"{x} cm" for x in plan])
             )
